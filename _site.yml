@@ -1,0 +1,8 @@
+name: "webiste"
+navbar:
+  title: "Webiste"
+  left:
+  - text: "Home"
+    href: index.html
+  - text: "Beer EDA"
+    href: beerEDA.html

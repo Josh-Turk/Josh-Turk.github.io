@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Joshua Turk, Matthew David" />
+
+<meta name="date" content="2023-03-03" />
+
+<title>Beer and Breweries EDA Project 1</title>
+
+<script src="site_libs/header-attrs-2.19/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Webiste</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="beerEDA.html">Beer EDA</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Beer and Breweries EDA Project 1</h1>
+<h4 class="author">Joshua Turk, Matthew David</h4>
+<h4 class="date">2023-03-03</h4>
+
+</div>
+
+
+<p>Libraries Used:</p>
+<pre class="r"><code>library(tidyverse)
+library(ggthemes)
+library(usmap)
+library(caret)
+library(class)</code></pre>
+<p>Imports:</p>
+<pre class="r"><code>beer &lt;- read.csv(file.choose(), header = TRUE)
+brew &lt;- read.csv(file.choose(), header = TRUE)
+
+#Cleaning the space in state names
+brew$State &lt;- substr(brew$State, 2, nchar(brew$State))</code></pre>
+<ol style="list-style-type: decimal">
+<li>This bar chart shows how many breweries are in each state. We can
+see that Colorado has the most breweries at 47 and West Virginia, South
+Dakota, North Dakota, and DC all are tied with only 1 brewery. Also
+included is a heatmap of the breweries across the states (Using usmaps
+library).</li>
+</ol>
+<pre class="r"><code>brew %&gt;% count(State) %&gt;% 
+  ggplot(aes(reorder(State, -n), n)) + 
+  geom_col(fill = &quot;#bc9c54&quot;) + 
+  geom_text(aes(label = n), position = position_dodge(width = 0.9), hjust = -0.25) + 
+  coord_flip() + labs(title = &quot;Breweries by State&quot;, y = element_blank(), x = element_blank()) + 
+  theme(legend.position = &quot;none&quot;, axis.text = element_text(size = 13))</code></pre>
+<p><img src="beerEDA_files/figure-html/unnamed-chunk-3-1.png" width="960" /></p>
+<pre class="r"><code>mapdata &lt;- brew %&gt;% count(State) %&gt;% rename(&quot;state&quot; = &quot;State&quot;)
+plot_usmap(data = mapdata, regions = &quot;state&quot;, values = &quot;n&quot;, labels = TRUE) + 
+  scale_fill_continuous(low = &quot;#213740&quot;, high = &quot;grey&quot;, name = &quot;Brewery Count&quot;)</code></pre>
+<p><img src="beerEDA_files/figure-html/unnamed-chunk-3-2.png" width="960" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Here the data is joined using a left join.</li>
+</ol>
+<pre class="r"><code>beerbrew &lt;- beer %&gt;% left_join(brew, by = c(&quot;Brewery_id&quot;=&quot;Brew_ID&quot;), suffix = c(&quot;.Beer&quot;, &quot;.Brewery&quot;))</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>We decided to impute the missing values in the ABV and IBU columns
+with the overall mean of the respective column in order to preserve the
+data.</li>
+</ol>
+<pre class="r"><code>beerbrew$IBU[is.na(beerbrew$IBU)] &lt;- mean(beerbrew$IBU, na.rm = TRUE)
+beerbrew$ABV[is.na(beerbrew$ABV)] &lt;- mean(beerbrew$ABV, na.rm = TRUE)</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>These charts display the median IBU and ABV in each state.</li>
+</ol>
+<pre class="r"><code>beerbrew %&gt;% filter(!is.na(IBU)) %&gt;% group_by(State) %&gt;% 
+  summarize(median = median(IBU)) %&gt;% 
+  ggplot(aes(reorder(State, -median), median)) + 
+  geom_col(fill = &quot;#bc9c54&quot;) + coord_flip() + 
+  labs(x = element_blank(), y = &quot;Median IBU&quot;, title = &quot;Median IBU By State&quot;) + 
+  theme(legend.position = &quot;none&quot;, axis.text = element_text(size = 13))</code></pre>
+<p><img src="beerEDA_files/figure-html/unnamed-chunk-6-1.png" width="960" /></p>
+<pre class="r"><code>beerbrew %&gt;% filter(!is.na(ABV)) %&gt;% 
+  group_by(State) %&gt;% summarize(median = median(ABV) * 100) %&gt;% 
+  ggplot(aes(reorder(State, -median), median)) + 
+  geom_col(fill = &quot;#213740&quot;) + coord_flip() + 
+  labs(x = element_blank(), y = &quot;Median ABV&quot;, title = &quot;Median ABV By State&quot;) +
+  theme(axis.text = element_text(size = 13))</code></pre>
+<p><img src="beerEDA_files/figure-html/unnamed-chunk-6-2.png" width="960" /></p>
+<ol start="5" style="list-style-type: decimal">
+<li>Here we can see the beers with the highest ABV and IBU. The highest
+IBU is the Bitter Bitch Imperial IPA from Oregan. The highest ABV is the
+Lee Hill Series Vol. 5 from Colorado.</li>
+</ol>
+<pre class="r"><code>beerbrewIBU &lt;- beerbrew %&gt;%  arrange(-IBU) 
+beerbrewABV &lt;- beerbrew %&gt;%  arrange(-ABV)
+head(beerbrewIBU, 1)</code></pre>
+<pre><code>##                   Name.Beer Beer_ID   ABV IBU Brewery_id
+## 1 Bitter Bitch Imperial IPA     980 0.082 138        375
+##                            Style Ounces            Name.Brewery
+## 1 American Double / Imperial IPA     12 Astoria Brewing Company
+##      City State
+## 1 Astoria    OR</code></pre>
+<pre class="r"><code>head(beerbrewABV, 1)</code></pre>
+<pre><code>##                                              Name.Beer Beer_ID
+## 1 Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale    2565
+##     ABV      IBU Brewery_id            Style Ounces
+## 1 0.128 42.71317         52 Quadrupel (Quad)   19.2
+##              Name.Brewery    City State
+## 1 Upslope Brewing Company Boulder    CO</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Here we can see the distribution of ABV as well as the summary
+statistics.</li>
+</ol>
+<pre class="r"><code>beerbrew%&gt;%ggplot(aes(x=ABV)) + 
+  geom_histogram(color=&quot;#213740&quot;,fill= &quot;#bc9c54&quot;)+ 
+  ggtitle(&quot;Distribution of ABV&quot;)+theme(legend.position = &quot;none&quot;)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+## `binwidth`.</code></pre>
+<p><img src="beerEDA_files/figure-html/unnamed-chunk-8-1.png" width="960" /></p>
+<pre class="r"><code>summary(beerbrew$ABV)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## 0.00100 0.05000 0.05700 0.05977 0.06700 0.12800</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>In order to look at the relationship between ABV and IBU we’ve
+created a scatterplot. There appears to be a positive correlation
+between the two variables, however this relationship isn’t the
+strongest.</li>
+</ol>
+<pre class="r"><code>beerbrew %&gt;% ggplot(aes(ABV, IBU, alpha = 0.5)) + 
+  geom_point(color = &quot;#213740&quot;) + 
+  geom_smooth(method = lm, se = FALSE, color = &quot;#bc9c54&quot;) + 
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="beerEDA_files/figure-html/unnamed-chunk-9-1.png" width="960" /></p>
+<ol start="8" style="list-style-type: decimal">
+<li>To investigate the difference with respect to ABV and IBU between
+IPAs and other Ales, we have created a kNN model. This model yields an
+average accuracy of about 81.6%, showing that IPAs and Ales can be
+fairly well defined by just their ABV and IBU.</li>
+</ol>
+<pre class="r"><code>#filtering and categorizing as IPAs and Ales only
+beerbrewAles &lt;- beerbrew %&gt;% filter(grepl(&quot;IPA&quot;, Style) | grepl(&quot;Ale&quot;, Style))
+beerbrewAles$Style[grepl(&quot;IPA&quot;, beerbrewAles$Style)] &lt;- &quot;IPA&quot;
+beerbrewAles$Style[grepl(&quot;Ale&quot;, beerbrewAles$Style)] &lt;- &quot;Ale&quot;
+beerbrewAles$Style &lt;- as.factor(beerbrewAles$Style)
+
+#create train and test
+index &lt;- sample(seq(1,1534,1), 1534 * .7)
+beerTrain &lt;- beerbrewAles[index,]
+beerTest &lt;- beerbrewAles[-index,]
+
+#classification
+classification &lt;- knn(train = beerTrain[,c(&quot;IBU&quot;, &quot;ABV&quot;)], test = beerTest[,c(&quot;IBU&quot;, &quot;ABV&quot;)], beerTrain$Style, prob = TRUE, k = 5)
+confusionMatrix(table(classification, beerTest$Style))</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##               
+## classification Ale IPA
+##            Ale 266  32
+##            IPA  33 130
+##                                           
+##                Accuracy : 0.859           
+##                  95% CI : (0.8238, 0.8895)
+##     No Information Rate : 0.6486          
+##     P-Value [Acc &gt; NIR] : &lt;2e-16          
+##                                           
+##                   Kappa : 0.6911          
+##                                           
+##  Mcnemar&#39;s Test P-Value : 1               
+##                                           
+##             Sensitivity : 0.8896          
+##             Specificity : 0.8025          
+##          Pos Pred Value : 0.8926          
+##          Neg Pred Value : 0.7975          
+##              Prevalence : 0.6486          
+##          Detection Rate : 0.5770          
+##    Detection Prevalence : 0.6464          
+##       Balanced Accuracy : 0.8461          
+##                                           
+##        &#39;Positive&#39; Class : Ale             
+## </code></pre>
+<pre class="r"><code>#k optimization, k = 5
+set.seed(1)
+iterations = 10
+numks = 20
+splitPerc = .7
+
+masterAcc = matrix(nrow = iterations, ncol = numks)
+
+for(j in 1:iterations)
+{
+  trainIndices = sample(1:dim(beerbrewAles)[1],round(splitPerc * dim(beerbrewAles)[1]))
+  train = beerbrewAles[trainIndices,]
+  test = beerbrewAles[-trainIndices,]
+  for(i in 1:numks)
+  {
+    classifications = knn(train[,c(&quot;IBU&quot;, &quot;ABV&quot;)], test[,c(&quot;IBU&quot;, &quot;ABV&quot;)], train$Style, prob = TRUE, k = i)
+    table(classifications,test$Style)
+    CM = confusionMatrix(table(classifications,test$Style))
+    masterAcc[j,i] = CM$overall[1]
+  }
+  
+}
+
+MeanAcc = colMeans(masterAcc)
+
+plot(seq(1,numks,1),MeanAcc, type = &quot;l&quot;)</code></pre>
+<p><img src="beerEDA_files/figure-html/unnamed-chunk-10-1.png" width="960" /></p>
+<pre class="r"><code>which.max(MeanAcc)</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>max(MeanAcc)</code></pre>
+<pre><code>## [1] 0.8206522</code></pre>
+<ol start="9" style="list-style-type: decimal">
+<li>For this point we wanted to look at the most popular styles in the
+U.S. and see which states those were coming from. The most popular style
+in the US is the American IPA and California is the top producer of this
+style.</li>
+</ol>
+<pre class="r"><code>#Top 5 styles
+style_counts &lt;- data.frame(table(beerbrew$Style))
+head(style_counts %&gt;% arrange(-Freq),5)</code></pre>
+<pre><code>##                             Var1 Freq
+## 1                   American IPA  424
+## 2        American Pale Ale (APA)  245
+## 3       American Amber / Red Ale  133
+## 4            American Blonde Ale  108
+## 5 American Double / Imperial IPA  105</code></pre>
+<pre class="r"><code>#Top styles in each state
+beerbrew %&gt;% 
+  filter(Style == &quot;American IPA&quot; | Style == &quot;American Pale Ale (APA)&quot; | Style == &quot;American Amber / Red Ale&quot; | Style == &quot;American Blonde Ale&quot; | Style == &quot;American Double / Imperial IPA&quot;) %&gt;% 
+  count(State, Style) %&gt;% 
+  arrange(-n, State) %&gt;% 
+  group_by(State) %&gt;% 
+  top_n(1,n) %&gt;% 
+  ggplot(aes(reorder(State, -n), n, fill = Style)) + 
+  geom_col() + 
+  xlab(&quot;State&quot;)+
+  ylab(&quot;Count&quot;) +
+  scale_fill_brewer(palette = &quot;Paired&quot;) + 
+  coord_flip()+ 
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
+<p><img src="beerEDA_files/figure-html/unnamed-chunk-11-1.png" width="960" /></p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
