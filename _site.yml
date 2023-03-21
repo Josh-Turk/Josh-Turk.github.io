@@ -1,8 +1,8 @@
-name: "webiste"
+name: "website"
 navbar:
-  title: "Webiste"
+  title: "Joshua Turk"
   left:
-  - text: "Home"
+  - text: "About Me"
     href: index.html
   - text: "Beer EDA"
     href: beerEDA.html

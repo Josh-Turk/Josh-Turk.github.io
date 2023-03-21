@@ -1,9 +1,12 @@
 ---
-title: "Website"
-author: "Josh Turk"
-date: "2023-03-21"
+title: "Portfolio"
 output: html_document
 ---
 
-
 # Things go here
+
+Hello, my name is Josh Turk and I am a student enrolled in the MSDS program at SMU. Here's some things I've worked on:
+
+Beer EDA Visualizer:
+
+Pokemon Stats Visualizer:

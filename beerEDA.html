@@ -240,12 +240,12 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Webiste</a>
+      <a class="navbar-brand" href="index.html">Joshua Turk</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="index.html">About Me</a>
 </li>
 <li>
   <a href="beerEDA.html">Beer EDA</a>
@@ -337,15 +337,15 @@ beerbrewABV &lt;- beerbrew %&gt;%  arrange(-ABV)
 head(beerbrewIBU, 1)</code></pre>
 <pre><code>##                   Name.Beer Beer_ID   ABV IBU Brewery_id
 ## 1 Bitter Bitch Imperial IPA     980 0.082 138        375
-##                            Style Ounces            Name.Brewery
-## 1 American Double / Imperial IPA     12 Astoria Brewing Company
-##      City State
-## 1 Astoria    OR</code></pre>
+##                            Style Ounces
+## 1 American Double / Imperial IPA     12
+##              Name.Brewery    City State
+## 1 Astoria Brewing Company Astoria    OR</code></pre>
 <pre class="r"><code>head(beerbrewABV, 1)</code></pre>
-<pre><code>##                                              Name.Beer Beer_ID
-## 1 Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale    2565
-##     ABV      IBU Brewery_id            Style Ounces
-## 1 0.128 42.71317         52 Quadrupel (Quad)   19.2
+<pre><code>##                                              Name.Beer
+## 1 Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale
+##   Beer_ID   ABV      IBU Brewery_id            Style Ounces
+## 1    2565 0.128 42.71317         52 Quadrupel (Quad)   19.2
 ##              Name.Brewery    City State
 ## 1 Upslope Brewing Company Boulder    CO</code></pre>
 <ol start="6" style="list-style-type: decimal">
@@ -397,26 +397,26 @@ confusionMatrix(table(classification, beerTest$Style))</code></pre>
 ## 
 ##               
 ## classification Ale IPA
-##            Ale 266  32
-##            IPA  33 130
+##            Ale 253  47
+##            IPA  27 134
 ##                                           
-##                Accuracy : 0.859           
-##                  95% CI : (0.8238, 0.8895)
-##     No Information Rate : 0.6486          
+##                Accuracy : 0.8395          
+##                  95% CI : (0.8027, 0.8718)
+##     No Information Rate : 0.6074          
 ##     P-Value [Acc &gt; NIR] : &lt;2e-16          
 ##                                           
-##                   Kappa : 0.6911          
+##                   Kappa : 0.6567          
 ##                                           
-##  Mcnemar&#39;s Test P-Value : 1               
+##  Mcnemar&#39;s Test P-Value : 0.0272          
 ##                                           
-##             Sensitivity : 0.8896          
-##             Specificity : 0.8025          
-##          Pos Pred Value : 0.8926          
-##          Neg Pred Value : 0.7975          
-##              Prevalence : 0.6486          
-##          Detection Rate : 0.5770          
-##    Detection Prevalence : 0.6464          
-##       Balanced Accuracy : 0.8461          
+##             Sensitivity : 0.9036          
+##             Specificity : 0.7403          
+##          Pos Pred Value : 0.8433          
+##          Neg Pred Value : 0.8323          
+##              Prevalence : 0.6074          
+##          Detection Rate : 0.5488          
+##    Detection Prevalence : 0.6508          
+##       Balanced Accuracy : 0.8220          
 ##                                           
 ##        &#39;Positive&#39; Class : Ale             
 ## </code></pre>
