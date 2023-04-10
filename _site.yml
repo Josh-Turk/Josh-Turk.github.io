@@ -6,3 +6,5 @@ navbar:
     href: index.html
   - text: "Beer EDA"
     href: beerEDA.html
+  - text: "Ames Home Pricing"
+    href: StatsProject.html
