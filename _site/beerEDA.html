@@ -279,8 +279,8 @@ library(usmap)
 library(caret)
 library(class)</code></pre>
 <p>Imports:</p>
-<pre class="r"><code>beer &lt;- read.csv(file.choose(), header = TRUE)
-brew &lt;- read.csv(file.choose(), header = TRUE)
+<pre class="r"><code>beer &lt;- read.csv(&quot;BeerEDA Data/Beers.csv&quot;, header = TRUE)
+brew &lt;- read.csv(&quot;BeerEDA Data/Breweries.csv&quot;, header = TRUE)
 
 #Cleaning the space in state names
 brew$State &lt;- substr(brew$State, 2, nchar(brew$State))</code></pre>
@@ -395,28 +395,28 @@ confusionMatrix(table(classification, beerTest$Style))</code></pre>
 ## 
 ##               
 ## classification Ale IPA
-##            Ale 258  49
-##            IPA  31 123
-##                                           
-##                Accuracy : 0.8265          
-##                  95% CI : (0.7887, 0.8599)
-##     No Information Rate : 0.6269          
-##     P-Value [Acc &gt; NIR] : &lt; 2e-16         
-##                                           
-##                   Kappa : 0.621           
-##                                           
-##  Mcnemar&#39;s Test P-Value : 0.05735         
-##                                           
-##             Sensitivity : 0.8927          
-##             Specificity : 0.7151          
-##          Pos Pred Value : 0.8404          
-##          Neg Pred Value : 0.7987          
-##              Prevalence : 0.6269          
-##          Detection Rate : 0.5597          
-##    Detection Prevalence : 0.6659          
-##       Balanced Accuracy : 0.8039          
-##                                           
-##        &#39;Positive&#39; Class : Ale             
+##            Ale 251  46
+##            IPA  42 122
+##                                          
+##                Accuracy : 0.8091         
+##                  95% CI : (0.7702, 0.844)
+##     No Information Rate : 0.6356         
+##     P-Value [Acc &gt; NIR] : 3.219e-16      
+##                                          
+##                   Kappa : 0.5858         
+##                                          
+##  Mcnemar&#39;s Test P-Value : 0.7491         
+##                                          
+##             Sensitivity : 0.8567         
+##             Specificity : 0.7262         
+##          Pos Pred Value : 0.8451         
+##          Neg Pred Value : 0.7439         
+##              Prevalence : 0.6356         
+##          Detection Rate : 0.5445         
+##    Detection Prevalence : 0.6443         
+##       Balanced Accuracy : 0.7914         
+##                                          
+##        &#39;Positive&#39; Class : Ale            
 ## </code></pre>
 <pre class="r"><code>#k optimization, k = 5
 set.seed(1)

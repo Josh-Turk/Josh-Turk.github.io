@@ -10,3 +10,5 @@ Hello, my name is Josh Turk and I am a student enrolled in the MSDS program at S
 Beer EDA Visualizer:
 
 Pokemon Stats Visualizer:
+
+Ames SalePrice v Living Area App:

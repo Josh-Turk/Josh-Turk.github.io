@@ -19,8 +19,8 @@ library(class)
 
 Imports:
 ```{r}
-beer <- read.csv(file.choose(), header = TRUE)
-brew <- read.csv(file.choose(), header = TRUE)
+beer <- read.csv("BeerEDA Data/Beers.csv", header = TRUE)
+brew <- read.csv("BeerEDA Data/Breweries.csv", header = TRUE)
 
 #Cleaning the space in state names
 brew$State <- substr(brew$State, 2, nchar(brew$State))
