@@ -250,6 +250,9 @@ $(document).ready(function () {
 <li>
   <a href="beerEDA.html">Beer EDA</a>
 </li>
+<li>
+  <a href="StatsProject.html">Ames Home Pricing</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -335,19 +338,15 @@ Lee Hill Series Vol. 5 from Colorado.</li>
 <pre class="r"><code>beerbrewIBU &lt;- beerbrew %&gt;%  arrange(-IBU) 
 beerbrewABV &lt;- beerbrew %&gt;%  arrange(-ABV)
 head(beerbrewIBU, 1)</code></pre>
-<pre><code>##                   Name.Beer Beer_ID   ABV IBU Brewery_id
-## 1 Bitter Bitch Imperial IPA     980 0.082 138        375
-##                            Style Ounces
-## 1 American Double / Imperial IPA     12
+<pre><code>##                   Name.Beer Beer_ID   ABV IBU Brewery_id                          Style Ounces
+## 1 Bitter Bitch Imperial IPA     980 0.082 138        375 American Double / Imperial IPA     12
 ##              Name.Brewery    City State
 ## 1 Astoria Brewing Company Astoria    OR</code></pre>
 <pre class="r"><code>head(beerbrewABV, 1)</code></pre>
-<pre><code>##                                              Name.Beer
-## 1 Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale
-##   Beer_ID   ABV      IBU Brewery_id            Style Ounces
-## 1    2565 0.128 42.71317         52 Quadrupel (Quad)   19.2
-##              Name.Brewery    City State
-## 1 Upslope Brewing Company Boulder    CO</code></pre>
+<pre><code>##                                              Name.Beer Beer_ID   ABV      IBU Brewery_id
+## 1 Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale    2565 0.128 42.71317         52
+##              Style Ounces            Name.Brewery    City State
+## 1 Quadrupel (Quad)   19.2 Upslope Brewing Company Boulder    CO</code></pre>
 <ol start="6" style="list-style-type: decimal">
 <li>Here we can see the distribution of ABV as well as the summary
 statistics.</li>
@@ -355,8 +354,7 @@ statistics.</li>
 <pre class="r"><code>beerbrew%&gt;%ggplot(aes(x=ABV)) + 
   geom_histogram(color=&quot;#213740&quot;,fill= &quot;#bc9c54&quot;)+ 
   ggtitle(&quot;Distribution of ABV&quot;)+theme(legend.position = &quot;none&quot;)</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
-## `binwidth`.</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="beerEDA_files/figure-html/unnamed-chunk-8-1.png" width="960" /></p>
 <pre class="r"><code>summary(beerbrew$ABV)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -397,26 +395,26 @@ confusionMatrix(table(classification, beerTest$Style))</code></pre>
 ## 
 ##               
 ## classification Ale IPA
-##            Ale 253  47
-##            IPA  27 134
+##            Ale 258  49
+##            IPA  31 123
 ##                                           
-##                Accuracy : 0.8395          
-##                  95% CI : (0.8027, 0.8718)
-##     No Information Rate : 0.6074          
-##     P-Value [Acc &gt; NIR] : &lt;2e-16          
+##                Accuracy : 0.8265          
+##                  95% CI : (0.7887, 0.8599)
+##     No Information Rate : 0.6269          
+##     P-Value [Acc &gt; NIR] : &lt; 2e-16         
 ##                                           
-##                   Kappa : 0.6567          
+##                   Kappa : 0.621           
 ##                                           
-##  Mcnemar&#39;s Test P-Value : 0.0272          
+##  Mcnemar&#39;s Test P-Value : 0.05735         
 ##                                           
-##             Sensitivity : 0.9036          
-##             Specificity : 0.7403          
-##          Pos Pred Value : 0.8433          
-##          Neg Pred Value : 0.8323          
-##              Prevalence : 0.6074          
-##          Detection Rate : 0.5488          
-##    Detection Prevalence : 0.6508          
-##       Balanced Accuracy : 0.8220          
+##             Sensitivity : 0.8927          
+##             Specificity : 0.7151          
+##          Pos Pred Value : 0.8404          
+##          Neg Pred Value : 0.7987          
+##              Prevalence : 0.6269          
+##          Detection Rate : 0.5597          
+##    Detection Prevalence : 0.6659          
+##       Balanced Accuracy : 0.8039          
 ##                                           
 ##        &#39;Positive&#39; Class : Ale             
 ## </code></pre>
