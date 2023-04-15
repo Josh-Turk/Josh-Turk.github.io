@@ -8,3 +8,5 @@ navbar:
     href: beerEDA.html
   - text: "Ames Home Pricing"
     href: StatsProject.html
+  - text: "CaseStudy2DDS"
+    href: CaseStudy2DDS.html

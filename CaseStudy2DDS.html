@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Josh Turk" />
+
+<meta name="date" content="2023-04-15" />
+
+<title>DDS Final Project - Attrition</title>
+
+<script src="site_libs/header-attrs-2.19/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Joshua Turk</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">About Me</a>
+</li>
+<li>
+  <a href="beerEDA.html">Beer EDA</a>
+</li>
+<li>
+  <a href="StatsProject.html">Ames Home Pricing</a>
+</li>
+<li>
+  <a href="CaseStudy2DDS.html">CaseStudy2DDS</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">DDS Final Project - Attrition</h1>
+<h4 class="author">Josh Turk</h4>
+<h4 class="date">2023-04-15</h4>
+
+</div>
+
+
+<p>Libraries Used</p>
+<pre class="r"><code>library(tidyverse)
+library(caret)</code></pre>
+<p>Data Import and Cleaing</p>
+<pre class="r"><code>data &lt;- read.csv(&quot;Datasets/CaseStudy2-data.csv&quot;, header = TRUE)
+
+#Remove columns that aren&#39;t useful
+data &lt;- subset(data, select = -c(ID,EmployeeCount,EmployeeNumber,Over18,StandardHours))
+
+#Change all character variables to factors
+data[sapply(data, is.character)] &lt;- lapply(data[sapply(data, is.character)], 
+                                       as.factor)
+
+#Create binary var for attrition
+data$AttritionCoded &lt;- with(data, ifelse(Attrition == &quot;Yes&quot;, 1, 0))</code></pre>
+<p>Creating Train and Test Sets</p>
+<pre class="r"><code>split &lt;- 0.75
+trainIndex &lt;- sample(seq(1,870,1),870*split)
+dataTrain &lt;- data[trainIndex,]
+dataTest &lt;- data[-trainIndex,]</code></pre>
+<p>Here we are building a kNN model to predict attrition. We will use
+10-fold cross validation and upsample the data to create a balanced
+dataset.</p>
+<pre class="r"><code>ctrl &lt;- trainControl(method = &quot;repeatedcv&quot;, 
+                     number = 10, 
+                     repeats = 5, 
+                     verboseIter = FALSE,
+                     sampling = &quot;up&quot;)
+
+model &lt;- train(Attrition ~ Age+
+                 EducationField+EnvironmentSatisfaction+
+                 Gender+HourlyRate+JobLevel+
+                 JobRole+JobSatisfaction+JobInvolvement+
+                 MonthlyIncome+MonthlyRate+NumCompaniesWorked+
+                 OverTime+RelationshipSatisfaction+WorkLifeBalance+
+                 YearsSinceLastPromotion+YearsWithCurrManager,
+               data = dataTrain,
+               method = &quot;knn&quot;,
+               trControl = ctrl,
+               preProcess = c(&quot;center&quot;,&quot;scale&quot;))
+
+predict &lt;- predict(model,newdata = dataTest)
+confusionMatrix(table(predict,dataTest$Attrition))</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##        
+## predict  No Yes
+##     No  133  16
+##     Yes  48  21
+##                                          
+##                Accuracy : 0.7064         
+##                  95% CI : (0.6411, 0.766)
+##     No Information Rate : 0.8303         
+##     P-Value [Acc &gt; NIR] : 0.9999980      
+##                                          
+##                   Kappa : 0.225          
+##                                          
+##  Mcnemar&#39;s Test P-Value : 0.0001066      
+##                                          
+##             Sensitivity : 0.7348         
+##             Specificity : 0.5676         
+##          Pos Pred Value : 0.8926         
+##          Neg Pred Value : 0.3043         
+##              Prevalence : 0.8303         
+##          Detection Rate : 0.6101         
+##    Detection Prevalence : 0.6835         
+##       Balanced Accuracy : 0.6512         
+##                                          
+##        &#39;Positive&#39; Class : No             
+## </code></pre>
+<p>Attrition Rate by Job Role</p>
+<pre class="r"><code>#create dataset
+jobdat &lt;- data %&gt;% group_by(JobRole) %&gt;% 
+  summarize(percAttr = sum(AttritionCoded)/length(AttritionCoded)*100)
+
+#plot data
+jobdat %&gt;% ggplot(aes(reorder(JobRole, percAttr), percAttr)) + 
+  geom_col(fill = &quot;#303c94&quot;) + coord_flip() + labs(y = &quot;% Attrition&quot;,  x= &quot;Job Role&quot;)</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Monthly Income Regression</p>
+<pre class="r"><code>fit3 &lt;- lm(MonthlyIncome ~ JobLevel+TotalWorkingYears+
+             JobRole+JobRole*JobLevel, data = data)
+summary(fit3)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = MonthlyIncome ~ JobLevel + TotalWorkingYears + JobRole + 
+##     JobRole * JobLevel, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3500.9  -629.2   -99.6   597.1  4333.0 
+## 
+## Coefficients:
+##                                         Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                             -608.154    456.272  -1.333 0.182929    
+## JobLevel                                2985.140    186.435  16.012  &lt; 2e-16 ***
+## TotalWorkingYears                         50.750      7.505   6.762 2.53e-11 ***
+## JobRoleHuman Resources                   364.079    646.258   0.563 0.573335    
+## JobRoleLaboratory Technician            1759.720    508.739   3.459 0.000569 ***
+## JobRoleManager                          3446.214   1050.768   3.280 0.001081 ** 
+## JobRoleManufacturing Director           -907.251    622.758  -1.457 0.145533    
+## JobRoleResearch Director                3735.449    807.041   4.629 4.26e-06 ***
+## JobRoleResearch Scientist                920.748    513.398   1.793 0.073258 .  
+## JobRoleSales Executive                  -806.340    549.594  -1.467 0.142703    
+## JobRoleSales Representative              939.944    786.148   1.196 0.232173    
+## JobLevel:JobRoleHuman Resources         -351.768    384.389  -0.915 0.360380    
+## JobLevel:JobRoleLaboratory Technician  -1667.611    244.362  -6.824 1.68e-11 ***
+## JobLevel:JobRoleManager                   39.383    280.964   0.140 0.888557    
+## JobLevel:JobRoleManufacturing Director   426.238    245.000   1.740 0.082265 .  
+## JobLevel:JobRoleResearch Director         -8.118    245.656  -0.033 0.973647    
+## JobLevel:JobRoleResearch Scientist      -832.004    259.891  -3.201 0.001419 ** 
+## JobLevel:JobRoleSales Executive          330.355    220.463   1.498 0.134385    
+## JobLevel:JobRoleSales Representative   -1001.410    618.828  -1.618 0.105982    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 996.4 on 851 degrees of freedom
+## Multiple R-squared:  0.954,  Adjusted R-squared:  0.953 
+## F-statistic: 980.7 on 18 and 851 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Job Satisfaction by Attrition T-Test</p>
+<pre class="r"><code>#job satisfaction by attrition, ttest
+x &lt;- data %&gt;% filter(Attrition == &quot;Yes&quot;)
+x &lt;- x[,&quot;JobSatisfaction&quot;]
+y &lt;- data %&gt;% filter(Attrition == &quot;No&quot;)
+y &lt;- y[,&quot;JobSatisfaction&quot;]
+
+t.test(x,y)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  x and y
+## t = -3.2202, df = 197.97, p-value = 0.001497
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.5255243 -0.1263348
+## sample estimates:
+## mean of x mean of y 
+##  2.435714  2.761644</code></pre>
+<p>Monthly Income by Attrition T-Test</p>
+<pre class="r"><code>#montlyincome by attrition, ttest
+a &lt;- data %&gt;% filter(Attrition == &quot;Yes&quot;)
+a &lt;- a[,&quot;MonthlyIncome&quot;]
+b &lt;- data %&gt;% filter(Attrition == &quot;No&quot;)
+b &lt;- b[,&quot;MonthlyIncome&quot;]
+
+t.test(a,b)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  a and b
+## t = -5.3249, df = 228.45, p-value = 2.412e-07
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -2654.047 -1220.382
+## sample estimates:
+## mean of x mean of y 
+##  4764.786  6702.000</code></pre>
+<p>YouTube Presentation: <a href="https://youtu.be/b8qVZO8sTnY"
+class="uri">https://youtu.be/b8qVZO8sTnY</a> RShiny App: <a
+href="https://josh-turk.shinyapps.io/AttritionProject/"
+class="uri">https://josh-turk.shinyapps.io/AttritionProject/</a></p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

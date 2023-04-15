@@ -7,8 +7,12 @@ output: html_document
 
 Hello, my name is Josh Turk and I am a student enrolled in the MSDS program at SMU. Here's some things I've worked on:
 
-Beer EDA Visualizer:
+Beer EDA Visualizer
 
-Pokemon Stats Visualizer:
+Ames SalePrice v Living Area App
 
-Ames SalePrice v Living Area App:
+CaseStudy2DDS Visualizer
+
+
+
+

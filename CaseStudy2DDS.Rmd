@@ -1,0 +1,109 @@
+---
+title: "DDS Final Project - Attrition"
+author: "Josh Turk"
+date: "2023-04-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Libraries Used
+```{r, warning=FALSE}
+library(tidyverse)
+library(caret)
+```
+
+Data Import and Cleaing
+```{r}
+data <- read.csv("Datasets/CaseStudy2-data.csv", header = TRUE)
+
+#Remove columns that aren't useful
+data <- subset(data, select = -c(ID,EmployeeCount,EmployeeNumber,Over18,StandardHours))
+
+#Change all character variables to factors
+data[sapply(data, is.character)] <- lapply(data[sapply(data, is.character)], 
+                                       as.factor)
+
+#Create binary var for attrition
+data$AttritionCoded <- with(data, ifelse(Attrition == "Yes", 1, 0))
+
+```
+
+Creating Train and Test Sets
+```{r}
+split <- 0.75
+trainIndex <- sample(seq(1,870,1),870*split)
+dataTrain <- data[trainIndex,]
+dataTest <- data[-trainIndex,]
+```
+
+Here we are building a kNN model to predict attrition. We will use 10-fold cross validation and upsample the data to create a balanced dataset. 
+```{r}
+
+ctrl <- trainControl(method = "repeatedcv", 
+                     number = 10, 
+                     repeats = 5, 
+                     verboseIter = FALSE,
+                     sampling = "up")
+
+model <- train(Attrition ~ Age+
+                 EducationField+EnvironmentSatisfaction+
+                 Gender+HourlyRate+JobLevel+
+                 JobRole+JobSatisfaction+JobInvolvement+
+                 MonthlyIncome+MonthlyRate+NumCompaniesWorked+
+                 OverTime+RelationshipSatisfaction+WorkLifeBalance+
+                 YearsSinceLastPromotion+YearsWithCurrManager,
+               data = dataTrain,
+               method = "knn",
+               trControl = ctrl,
+               preProcess = c("center","scale"))
+
+predict <- predict(model,newdata = dataTest)
+confusionMatrix(table(predict,dataTest$Attrition))
+```
+
+Attrition Rate by Job Role
+```{r}
+#create dataset
+jobdat <- data %>% group_by(JobRole) %>% 
+  summarize(percAttr = sum(AttritionCoded)/length(AttritionCoded)*100)
+
+#plot data
+jobdat %>% ggplot(aes(reorder(JobRole, percAttr), percAttr)) + 
+  geom_col(fill = "#303c94") + coord_flip() + labs(y = "% Attrition",  x= "Job Role")
+```
+
+Monthly Income Regression
+```{r}
+fit3 <- lm(MonthlyIncome ~ JobLevel+TotalWorkingYears+
+             JobRole+JobRole*JobLevel, data = data)
+summary(fit3)
+```
+
+Job Satisfaction by Attrition T-Test
+```{r}
+#job satisfaction by attrition, ttest
+x <- data %>% filter(Attrition == "Yes")
+x <- x[,"JobSatisfaction"]
+y <- data %>% filter(Attrition == "No")
+y <- y[,"JobSatisfaction"]
+
+t.test(x,y)
+```
+
+Monthly Income by Attrition T-Test
+```{r}
+#montlyincome by attrition, ttest
+a <- data %>% filter(Attrition == "Yes")
+a <- a[,"MonthlyIncome"]
+b <- data %>% filter(Attrition == "No")
+b <- b[,"MonthlyIncome"]
+
+t.test(a,b)
+```
+
+YouTube Presentation: https://youtu.be/b8qVZO8sTnY
+RShiny App:  https://josh-turk.shinyapps.io/AttritionProject/
+

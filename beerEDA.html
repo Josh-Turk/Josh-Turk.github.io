@@ -253,6 +253,9 @@ $(document).ready(function () {
 <li>
   <a href="StatsProject.html">Ames Home Pricing</a>
 </li>
+<li>
+  <a href="CaseStudy2DDS.html">CaseStudy2DDS</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -338,15 +341,15 @@ Lee Hill Series Vol. 5 from Colorado.</li>
 <pre class="r"><code>beerbrewIBU &lt;- beerbrew %&gt;%  arrange(-IBU) 
 beerbrewABV &lt;- beerbrew %&gt;%  arrange(-ABV)
 head(beerbrewIBU, 1)</code></pre>
-<pre><code>##                   Name.Beer Beer_ID   ABV IBU Brewery_id                          Style Ounces
-## 1 Bitter Bitch Imperial IPA     980 0.082 138        375 American Double / Imperial IPA     12
-##              Name.Brewery    City State
-## 1 Astoria Brewing Company Astoria    OR</code></pre>
+<pre><code>##                   Name.Beer Beer_ID   ABV IBU Brewery_id
+## 1 Bitter Bitch Imperial IPA     980 0.082 138        375
+##                            Style Ounces            Name.Brewery    City State
+## 1 American Double / Imperial IPA     12 Astoria Brewing Company Astoria    OR</code></pre>
 <pre class="r"><code>head(beerbrewABV, 1)</code></pre>
-<pre><code>##                                              Name.Beer Beer_ID   ABV      IBU Brewery_id
-## 1 Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale    2565 0.128 42.71317         52
-##              Style Ounces            Name.Brewery    City State
-## 1 Quadrupel (Quad)   19.2 Upslope Brewing Company Boulder    CO</code></pre>
+<pre><code>##                                              Name.Beer Beer_ID   ABV      IBU
+## 1 Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale    2565 0.128 42.71317
+##   Brewery_id            Style Ounces            Name.Brewery    City State
+## 1         52 Quadrupel (Quad)   19.2 Upslope Brewing Company Boulder    CO</code></pre>
 <ol start="6" style="list-style-type: decimal">
 <li>Here we can see the distribution of ABV as well as the summary
 statistics.</li>
@@ -395,28 +398,28 @@ confusionMatrix(table(classification, beerTest$Style))</code></pre>
 ## 
 ##               
 ## classification Ale IPA
-##            Ale 251  46
-##            IPA  42 122
-##                                          
-##                Accuracy : 0.8091         
-##                  95% CI : (0.7702, 0.844)
-##     No Information Rate : 0.6356         
-##     P-Value [Acc &gt; NIR] : 3.219e-16      
-##                                          
-##                   Kappa : 0.5858         
-##                                          
-##  Mcnemar&#39;s Test P-Value : 0.7491         
-##                                          
-##             Sensitivity : 0.8567         
-##             Specificity : 0.7262         
-##          Pos Pred Value : 0.8451         
-##          Neg Pred Value : 0.7439         
-##              Prevalence : 0.6356         
-##          Detection Rate : 0.5445         
-##    Detection Prevalence : 0.6443         
-##       Balanced Accuracy : 0.7914         
-##                                          
-##        &#39;Positive&#39; Class : Ale            
+##            Ale 281  42
+##            IPA  37 101
+##                                           
+##                Accuracy : 0.8286          
+##                  95% CI : (0.7911, 0.8619)
+##     No Information Rate : 0.6898          
+##     P-Value [Acc &gt; NIR] : 7.806e-12       
+##                                           
+##                   Kappa : 0.5957          
+##                                           
+##  Mcnemar&#39;s Test P-Value : 0.6527          
+##                                           
+##             Sensitivity : 0.8836          
+##             Specificity : 0.7063          
+##          Pos Pred Value : 0.8700          
+##          Neg Pred Value : 0.7319          
+##              Prevalence : 0.6898          
+##          Detection Rate : 0.6095          
+##    Detection Prevalence : 0.7007          
+##       Balanced Accuracy : 0.7950          
+##                                           
+##        &#39;Positive&#39; Class : Ale             
 ## </code></pre>
 <pre class="r"><code>#k optimization, k = 5
 set.seed(1)
